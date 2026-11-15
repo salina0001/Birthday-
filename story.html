@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>A Letter for Salina</title>
+<script>
+// Bina index.html se unlock kiye seedha khulne par wapas bhej do
+if(sessionStorage.getItem("salinaUnlocked")!=="yes"){location.replace("index.html")}
+</script>
+<style>
+*{box-sizing:border-box}
+:root{--f:1}
+html{height:100%;background:#1a0626;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+margin:0;width:100%;
+min-height:100vh;min-height:100dvh;
+/* hearts wala background (purple gradient + blurred hearts) */
+background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='640'%3E%3Cdefs%3E%3Cfilter id='b' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeGaussianBlur stdDeviation='3'/%3E%3C/filter%3E%3Cpath id='h' d='M0 10C-22-8-16-24 0-12C16-24 22-8 0 10Z'/%3E%3C/defs%3E%3Cg fill='%23a526a8' filter='url(%23b)'%3E%3Cuse href='%23h' transform='translate(50 80) scale(1.2)' opacity='.3'/%3E%3Cuse href='%23h' transform='translate(250 40) scale(.8)' opacity='.25'/%3E%3Cuse href='%23h' transform='translate(310 170) scale(2.2)' opacity='.2'/%3E%3Cuse href='%23h' transform='translate(120 230) scale(.9)' opacity='.3'/%3E%3Cuse href='%23h' transform='translate(200 330) scale(1.6)' opacity='.22'/%3E%3Cuse href='%23h' transform='translate(40 400) scale(2.4)' opacity='.2'/%3E%3Cuse href='%23h' transform='translate(300 450) scale(.9)' opacity='.3'/%3E%3Cuse href='%23h' transform='translate(150 520) scale(.8)' opacity='.28'/%3E%3Cuse href='%23h' transform='translate(260 590) scale(1.8)' opacity='.2'/%3E%3Cuse href='%23h' transform='translate(70 600) scale(1.1)' opacity='.3'/%3E%3C/g%3E%3C/svg%3E") top/360px 640px repeat,linear-gradient(180deg,#6e0a60 0%,#3a0b44 45%,#1a0626 100%);
+background-attachment:fixed;
+color:white;font-family:Georgia,'Noto Serif Devanagari',serif;
+display:flex;padding:46px clamp(10px,3.5vw,14px) clamp(10px,3.5vw,14px);text-align:center;
+overflow-x:hidden;
+}
+main{width:100%;max-width:650px;margin:auto}
+.envelope{
+font-size:clamp(46px,min(22vw,13vh),90px);cursor:pointer;
+filter:drop-shadow(0 0 20px #e98bb6);
+animation:float 2s infinite ease-in-out;
+}
+@keyframes float{50%{transform:translateY(-12px)}}
+h1{
+color:#ffd0e2;font-size:clamp(22px,min(7.5vw,4.5vh),34px);
+overflow-wrap:break-word;
+}
+#intro p{font-size:clamp(13px,min(4vw,2.4vh),16px);line-height:1.6;overflow-wrap:break-word}
+.small{font-size:clamp(10px,3vw,12px);letter-spacing:clamp(2px,1vw,4px);color:#eab4cd}
+.paper{
+display:none;
+/* ghoomti rangeen border (gold, red, violet, cyan) + rang badalti glow */
+border:3px solid transparent;
+background:
+linear-gradient(140deg,#fff5f7,#f4d9e5) padding-box,
+linear-gradient(120deg,#ffd700,#ff3b6b,#8a5cff,#00e5ff,#ffd700) border-box;
+background-size:100% 100%,300% 300%;
+color:#53243d;text-align:left;
+padding:clamp(12px,3.5vw,20px) clamp(14px,4.5vw,18px);
+border-radius:8px;box-shadow:0 0 40px #e17ba8;
+max-height:calc(100vh - 150px);max-height:calc(100dvh - 150px);
+overflow-y:auto;
+animation:open .8s,borderMove 4s linear infinite,glow 6s ease-in-out infinite;
+}
+@keyframes borderMove{
+0%{background-position:0 0,0% 50%}
+100%{background-position:0 0,300% 50%}
+}
+@keyframes glow{
+0%,100%{box-shadow:0 0 35px #ff3b6b}
+25%{box-shadow:0 0 50px #ffd700}
+50%{box-shadow:0 0 35px #8a5cff}
+75%{box-shadow:0 0 50px #00e5ff}
+}
+/* NEW: font thoda chhota (beech ka size) */
+.paper h2{font-size:calc(clamp(17px,5.2vw,21px)*var(--f));margin:0 0 5px}
+.paper p{
+font-size:calc(clamp(15px,4.4vw,18px)*var(--f));line-height:1.5;margin:calc(9px*var(--f)) 0;
+white-space:pre-line;overflow-wrap:break-word;
+}
+.paper p:last-child{font-weight:bold}
+@keyframes open{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:scale(1)}}
+button,a{
+display:inline-block;
+background:linear-gradient(120deg,#a94d78,#f0b1ca);color:#2a1020;
+border:0;border-radius:30px;padding:12px clamp(16px,6vw,22px);margin:10px;
+font-size:clamp(13px,4vw,15px);font-family:inherit;text-decoration:none;cursor:pointer;
+max-width:100%;
+}
+#next{display:none;animation:open .8s}
+
+/* Language button */
+#langBtn{
+position:fixed;top:10px;right:10px;z-index:20;
+margin:0;padding:8px 16px;
+font-size:clamp(12px,3.6vw,14px);
+background:#211328;color:#ffd4e5;
+border:1px solid #d99bb9;border-radius:30px;
+box-shadow:0 0 15px #a44d7a;
+}
+
+@media (max-height:560px){
+.paper{max-height:calc(100dvh - 130px)}
+}
+</style>
+</head>
+<body>
+<button id="langBtn" onclick="toggleLang()">हिंदी</button>
+<main>
+<div id="intro">
+<div class="small" data-i18n="small"></div>
+<h1 data-i18n="title"></h1>
+<p data-i18n="intro"></p>
+<div class="envelope" onclick="openLetter()">💌</div>
+<button onclick="openLetter()" data-i18n="openBtn"></button>
+</div>
+
+<div class="paper" id="paper">
+<h2 data-i18n="dear"></h2>
+<div id="letter"></div>
+</div>
+
+<div id="next"><a href="reasons.html" data-i18n="nextBtn"></a></div>
+</main>
+
+<script>
+// ---------- HINDI / ENGLISH TEXT ----------
+const T={
+en:{
+pageTitle:"A Letter for Salina",
+small:"WORDS FROM THE HEART",
+title:"A Little Letter For You 💌",
+intro:"There is something special waiting inside this envelope.",
+openBtn:"OPEN MY LETTER",
+dear:"My Dear Salina ❤️",
+nextBtn:"WHY YOU ARE SPECIAL →",
+paras:[
+"Happy Birthday! 🌷",
+"It's strange how someone I've never met can become so close to my heart.",
+"Even though we're miles apart, I miss you more than words can ever explain. I wish I could be beside you, see your beautiful smile, hold your hand, and wish you Happy Birthday in person.",
+"Maybe we haven't created memories together yet, but I'm just waiting for that beautiful moment when we finally meet, and all this distance turns into a lovely meeting. ❤️",
+"How do I even tell you how much I love you? Sometimes, I feel like even all the words in my heart wouldn't be enough to express what you mean to me.",
+"Today, I just wish you endless happiness, beautiful dreams, and a lifetime of smiles.",
+"Until we meet, remember that someone far away misses you like crazy and loves you more than words can say.",
+"Always yours, with all my love. 🌷\nYour Sir Jiiiiii ❤️\nLove You 🌹"
+],
+btn:"हिंदी"
+},
+hi:{
+pageTitle:"सलीना के लिए एक खत",
+small:"दिल से निकले शब्द",
+title:"तुम्हारे लिए एक छोटा सा खत 💌",
+intro:"इस लिफ़ाफ़े के अंदर कुछ खास तुम्हारा इंतज़ार कर रहा है।",
+openBtn:"मेरा खत खोलो",
+dear:"मेरी प्यारी सलीना ❤️",
+nextBtn:"तुम खास क्यों हो →",
+paras:[
+"जन्मदिन मुबारक! 🌷",
+"कितना अजीब है कि जिससे मैं कभी मिला भी नहीं, वो मेरे दिल के इतने करीब आ गई।",
+"हम मीलों दूर हैं, फिर भी मैं तुम्हें इतना याद करता हूँ जितना शब्दों में कह पाना मुमकिन नहीं। काश मैं तुम्हारे पास होता, तुम्हारी प्यारी मुस्कान देख पाता, तुम्हारा हाथ थाम पाता, और तुम्हें रूबरू जन्मदिन की बधाई दे पाता।",
+"शायद हमने अभी तक साथ में कोई यादें नहीं बनाई हैं, पर मैं बस उस खूबसूरत पल का इंतज़ार कर रहा हूँ जब हम आखिरकार मिलेंगे, और ये सारी दूरी एक प्यारी सी मुलाक़ात में बदल जाएगी। ❤️",
+"मैं तुम्हें कैसे बताऊँ कि मैं तुमसे कितना प्यार करता हूँ? कभी-कभी लगता है कि मेरे दिल के सारे शब्द भी ये बयान करने के लिए काफ़ी नहीं हैं कि तुम मेरे लिए क्या हो।",
+"आज मैं बस यही चाहता हूँ कि तुम्हें अनगिनत खुशियाँ, खूबसूरत सपने और उम्र भर की मुस्कानें मिलें।",
+"जब तक हम मिलते नहीं, याद रखना कि कोई दूर बैठा तुम्हें बेहद याद करता है और शब्दों से कहीं ज़्यादा तुमसे प्यार करता है।",
+"हमेशा तुम्हारा, ढेर सारे प्यार के साथ। 🌷\nतुम्हारा सर जीईईई ❤️\nलव यू 🌹"
+],
+btn:"English"
+}
+};
+
+let lang="en";
+try{
+const saved=localStorage.getItem("salinaLang");
+if(saved==="hi"||saved==="en")lang=saved;
+}catch(e){}
+
+const box=document.getElementById("letter");
+const paper=document.getElementById("paper");
+const nextEl=document.getElementById("next");
+const mainEl=document.querySelector("main");
+let items=[];
+let opened=false,pi=0,ci=0,runId=0;
+
+// ---------- SCREEN FIT ----------
+// Text chhota nahi hota. Jo letter box me na aaye wo scroll hota hai.
+function fit(){
+document.documentElement.style.setProperty("--f",1);
+}
+
+function buildLetter(){
+box.innerHTML="";
+items=T[lang].paras.map(t=>{
+const p=document.createElement("p");
+const a=document.createElement("span");
+const b=document.createElement("span");
+b.style.visibility="hidden";
+b.textContent=t;
+p.append(a,b);
+box.append(p);
+return {p,a,b,full:t,chars:Array.from(t)};
+});
+}
+
+function applyLang(){
+document.documentElement.lang=lang;
+document.title=T[lang].pageTitle;
+document.querySelectorAll("[data-i18n]").forEach(el=>{
+el.textContent=T[lang][el.getAttribute("data-i18n")];
+});
+document.getElementById("langBtn").textContent=T[lang].btn;
+}
+
+function toggleLang(){
+lang=(lang==="en")?"hi":"en";
+try{localStorage.setItem("salinaLang",lang)}catch(e){}
+applyLang();
+if(opened){
+// typing rok kar poora letter naye language me turant dikhao
+runId++;
+buildLetter();
+items.forEach(o=>{o.a.textContent=o.full;o.b.textContent=""});
+nextEl.style.display="block";
+nextEl.style.visibility="visible";
+fit();
+}
+}
+
+function openLetter(){
+if(opened)return;
+opened=true;
+document.getElementById("intro").style.display="none";
+paper.style.display="block";
+// button ki jagah pehle se reserve, taaki baad me screen se bahar na jaye
+nextEl.style.display="block";
+nextEl.style.visibility="hidden";
+nextEl.style.animation="none";
+buildLetter();
+fit();
+pi=0;ci=0;
+const id=++runId;
+setTimeout(()=>tick(id),400);
+}
+
+function showNext(){
+nextEl.style.visibility="visible";
+nextEl.style.animation="open .8s";
+}
+
+function tick(id){
+if(id!==runId)return;
+if(pi>=items.length){
+showNext();
+return;
+}
+const o=items[pi];
+if(ci===0){
+// naya paragraph shuru hote hi box scroll karke use dikhao
+const need=o.p.offsetTop+o.p.offsetHeight-paper.clientHeight+20;
+if(need>paper.scrollTop)paper.scrollTop=need;
+}
+ci++;
+o.a.textContent=o.chars.slice(0,ci).join("");
+o.b.textContent=o.chars.slice(ci).join("");
+if(ci>=o.chars.length){
+pi++;ci=0;
+// paragraphon ke beech ka gap
+setTimeout(()=>tick(id),300);
+}else{
+// typing speed (bada number = dheere)
+setTimeout(()=>tick(id),30);
+}
+}
+
+applyLang();
+window.addEventListener("resize",fit);
+window.addEventListener("orientationchange",()=>setTimeout(fit,200));
+window.addEventListener("load",fit);
+</script>
+</body>
+</html>

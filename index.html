@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>A Secret For Salina ❤️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{
+background:#fde9ef;
+background-image:
+radial-gradient(circle at 20% 15%,#fff7f9 0,transparent 45%),
+radial-gradient(circle at 85% 90%,#f9cfdc 0,transparent 50%);
+color:#a8466a;
+font-family:'Playfair Display',Georgia,'Noto Serif Devanagari',serif;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+min-height:100dvh;
+padding:max(env(safe-area-inset-top),52px) 16px max(env(safe-area-inset-bottom),16px);
+overflow:hidden;
+user-select:none;-webkit-user-select:none;touch-action:manipulation;
+}
+
+/* floating hearts in the background */
+.bg{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.bg span{position:absolute;color:#f4a9c0;opacity:.45;animation:drift linear infinite}
+@keyframes drift{from{transform:translateY(0)}to{transform:translateY(-110vh)}}
+
+/* bow, top right */
+.bow{position:fixed;top:0;right:-6px;width:150px;z-index:1;pointer-events:none}
+
+/* language button */
+#langBtn{
+position:fixed;top:10px;left:10px;z-index:20;
+padding:7px 16px;border-radius:30px;
+border:1.5px solid #f0a6bf;background:#fff6f9;color:#a8466a;
+font-family:inherit;font-size:14px;cursor:pointer;
+box-shadow:0 2px 10px #f4b6c9;
+}
+
+.wrap{position:relative;z-index:2;width:100%;max-width:360px;text-align:center}
+
+/* two heart photos */
+.photos{display:flex;justify-content:center;margin-bottom:6px}
+.hf{
+position:relative;width:clamp(120px,38vw,150px);aspect-ratio:1;
+filter:drop-shadow(0 4px 8px #e48aa766);
+}
+.hf+.hf{margin-left:-14px}
+.hf:nth-child(1){transform:rotate(-6deg)}
+.hf:nth-child(2){transform:rotate(5deg);margin-top:12px}
+.hf .outer,.hf .inner{position:absolute;clip-path:url(#heartClip)}
+.hf .outer{
+inset:0;
+background:
+radial-gradient(circle,#fff 2.2px,transparent 2.6px) 0 0/11px 11px,
+#f7b9cc;
+}
+.hf .inner{inset:5%;background:#ffe3ec;display:flex;align-items:center;justify-content:center;font-size:34px}
+.hf .inner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+.hf:nth-child(1) .inner img{object-position:50% 50%}
+.hf:nth-child(2) .inner img{object-position:50% 25%}
+.hf .ribbon{position:absolute;top:-6px;left:-4px;font-size:24px;transform:rotate(-20deg)}
+
+.title{
+font-family:'Great Vibes','Brush Script MT',cursive;
+font-size:clamp(34px,10vw,44px);line-height:1.15;
+margin:10px 0 14px;color:#b0456e;
+text-shadow:0 1px 0 #fff;
+}
+
+/* 4 heart slots */
+.slots{display:flex;justify-content:center;gap:10px;margin-bottom:18px}
+.slot{
+width:clamp(48px,15vw,58px);height:clamp(48px,15vw,58px);
+border-radius:14px;
+background:#fdeff3;border:1.5px solid #f3c7d6;
+box-shadow:inset 0 2px 4px #fff,0 2px 6px #f4c6d4;
+display:flex;align-items:center;justify-content:center;
+font-size:22px;color:#e46f97;
+}
+.slot.f{background:#ffe0ea;border-color:#ec8fb0;animation:pop .25s ease}
+@keyframes pop{from{transform:scale(.7)}60%{transform:scale(1.12)}to{transform:scale(1)}}
+.slots.shake{animation:shake .45s ease}
+@keyframes shake{
+0%,100%{transform:translateX(0)}
+20%{transform:translateX(-10px)}40%{transform:translateX(10px)}
+60%{transform:translateX(-6px)}80%{transform:translateX(6px)}
+}
+
+/* keypad */
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 6px}
+.k{
+height:clamp(46px,calc(100dvh*.065),56px);
+border:1.5px solid #f3c7d6;border-radius:14px;
+background:linear-gradient(#fff9fb,#fde6ee);
+color:#a8466a;font-family:inherit;font-size:22px;
+box-shadow:0 3px 0 #f1bccd,0 5px 8px #f4c6d466;
+cursor:pointer;transition:transform .08s,box-shadow .08s;
+}
+.k:active{transform:translateY(3px);box-shadow:0 0 0 #f1bccd}
+.k.go{background:linear-gradient(#f7a6c1,#ee82a8);border-color:#e46f97;color:#fff;box-shadow:0 3px 0 #d9608a,0 5px 8px #ee82a866}
+.k.go:active{box-shadow:0 0 0 #d9608a}
+
+#error{min-height:1.6em;margin:14px 0 0;font-size:14px;color:#c9406f;line-height:1.4}
+.tag{margin:4px 0 0;font-size:11px;letter-spacing:1.5px;color:#c76f8f}
+
+/* welcome screen */
+#unlock{
+display:none;position:fixed;inset:0;z-index:30;background:#fde9ef;
+flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;
+}
+#unlock .big{font-size:60px;animation:pop .6s ease}
+#unlock h1{font-family:'Great Vibes',cursive;font-weight:400;font-size:clamp(40px,12vw,54px);color:#b0456e;margin:10px 0}
+#unlock p{color:#a8466a;margin:0}
+#unlock.show{animation:fadeIn .9s ease}
+#unlock.out>*{animation:fadeOut .7s ease forwards}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+
+@media (max-height:640px){
+.hf{width:100px}
+.title{margin:4px 0 8px;font-size:32px}
+.slots{margin-bottom:10px}
+.k{height:40px;font-size:19px}
+#error{margin-top:8px}
+}
+</style>
+</head>
+<body>
+
+<!-- heart shape used to cut the photos -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
+<clipPath id="heartClip" clipPathUnits="objectBoundingBox">
+<path d="M0.5,0.96 C0.12,0.68 0,0.5 0,0.29 C0,0.11 0.13,0.02 0.26,0.02 C0.37,0.02 0.45,0.08 0.5,0.17 C0.55,0.08 0.63,0.02 0.74,0.02 C0.87,0.02 1,0.11 1,0.29 C1,0.5 0.88,0.68 0.5,0.96 Z"/>
+</clipPath>
+</defs>
+</svg>
+
+<button id="langBtn" onclick="toggleLang()">हिंदी</button>
+<div class="bg" id="bg"></div>
+
+<!-- bow -->
+<svg class="bow" viewBox="0 0 160 110" fill="none">
+<path d="M78 52 C60 20 20 8 6 24 C-4 38 18 62 78 56Z" fill="#f9c3d3" stroke="#e98aab" stroke-width="2"/>
+<path d="M82 52 C100 20 140 8 154 24 C164 38 142 62 82 56Z" fill="#f9c3d3" stroke="#e98aab" stroke-width="2"/>
+<path d="M30 30 C46 34 62 42 74 52M130 30 C114 34 98 42 86 52" stroke="#e98aab" stroke-width="1.5"/>
+<path d="M74 54 C60 80 50 98 38 108 L58 100 L66 106 C70 88 78 72 82 58Z" fill="#f4a9c0" stroke="#e98aab" stroke-width="2"/>
+<path d="M86 54 C98 80 108 98 122 108 L102 100 L94 106 C90 88 84 72 80 58Z" fill="#f4a9c0" stroke="#e98aab" stroke-width="2"/>
+<rect x="68" y="42" width="24" height="22" rx="9" fill="#ee82a8" stroke="#d9608a" stroke-width="2"/>
+</svg>
+
+<div class="wrap" id="login">
+<div class="photos">
+<!-- Apni photos ke naam yahan likho: photo1.jpg aur photo2.jpg -->
+<div class="hf"><div class="outer"></div><div class="inner">💗<img src="photo1.jpg" alt="" onerror="this.remove()"></div></div>
+<div class="hf"><div class="outer"></div><div class="inner">💗<img src="photo2.jpg" alt="" onerror="this.remove()"></div></div>
+</div>
+
+<div class="title" data-i18n="title"></div>
+<div class="slots" id="slots"></div>
+<div class="pad" id="pad"></div>
+<p id="error"></p>
+<p class="tag" data-i18n="loginTag"></p>
+</div>
+
+<div id="unlock">
+<div class="big">💗</div>
+<h1 data-i18n="welcomeTitle"></h1>
+<p data-i18n="welcomeP"></p>
+</div>
+
+<script>
+// Apna secret code yahan change karna (sirf numbers). Slots apne aap code ki length ke hisab se bante hain.
+const SECRET_CODE="0143";
+
+const T={
+en:{
+pageTitle:"A Secret For Salina ❤️",
+title:"Enter our secret code 💗",
+loginTag:"CRAFTED WITH LOVE, FOR YOU ALONE 🌹",
+wrong:"Hmm… that's not it, my love 😏 Try once more!",
+welcomeTitle:"Welcome, Salina 💖",
+welcomeP:"Opening your surprise...",
+btn:"हिंदी"
+},
+hi:{
+pageTitle:"सलीना के लिए एक राज़ ❤️",
+title:"हमारा सीक्रेट कोड डालो 💗",
+loginTag:"प्यार से बनाया, सिर्फ़ तुम्हारे लिए 🌹",
+wrong:"हम्म… ये तो नहीं है, मेरी जान 😏 एक बार और कोशिश करो!",
+welcomeTitle:"स्वागत है, सलीना 💖",
+welcomeP:"तुम्हारा सरप्राइज़ खुल रहा है...",
+btn:"English"
+}
+};
+
+let lang="en";
+try{
+const s=localStorage.getItem("salinaLang");
+if(s==="hi"||s==="en")lang=s;
+}catch(e){}
+let wrongShown=false;
+
+function applyLang(){
+document.documentElement.lang=lang;
+document.title=T[lang].pageTitle;
+document.querySelectorAll("[data-i18n]").forEach(el=>{el.textContent=T[lang][el.dataset.i18n]});
+document.getElementById("langBtn").textContent=T[lang].btn;
+if(wrongShown)document.getElementById("error").textContent=T[lang].wrong;
+}
+function toggleLang(){
+lang=lang==="en"?"hi":"en";
+try{localStorage.setItem("salinaLang",lang)}catch(e){}
+applyLang();
+}
+
+// ---------- KEYPAD ----------
+let entered="";
+let busy=false;
+const slotsEl=document.getElementById("slots");
+const padEl=document.getElementById("pad");
+
+for(let i=0;i<SECRET_CODE.length;i++){
+const d=document.createElement("div");
+d.className="slot";
+d.textContent="♥";
+d.style.color="#f3c7d6";
+slotsEl.appendChild(d);
+}
+
+function drawSlots(){
+[...slotsEl.children].forEach((s,i)=>{
+const filled=i<entered.length;
+s.className="slot"+(filled?" f":"");
+s.textContent="♥";
+s.style.color=filled?"#e46f97":"#f3c7d6";
+});
+}
+
+function addKey(label,cls,fn){
+const b=document.createElement("button");
+b.type="button";
+b.className="k "+(cls||"");
+b.textContent=label;
+b.addEventListener("click",fn);
+padEl.appendChild(b);
+}
+for(let n=1;n<=9;n++)addKey(String(n),"",()=>press(String(n)));
+addKey("⌫","",back);
+addKey("0","",()=>press("0"));
+addKey("♥","go",check);
+
+function press(d){
+if(busy||entered.length>=SECRET_CODE.length)return;
+entered+=d;
+drawSlots();
+}
+function back(){
+if(busy)return;
+entered=entered.slice(0,-1);
+drawSlots();
+}
+document.addEventListener("keydown",e=>{
+if(e.key>="0"&&e.key<="9")press(e.key);
+else if(e.key==="Backspace")back();
+else if(e.key==="Enter")check();
+});
+
+function check(){
+if(busy)return;
+if(entered===SECRET_CODE){
+busy=true;
+const u=document.getElementById("unlock");
+u.style.display="flex";
+u.classList.add("show");
+try{sessionStorage.setItem("salinaUnlocked","yes")}catch(e){}
+setTimeout(()=>{u.classList.remove("show");u.classList.add("out")},2000);
+setTimeout(()=>{window.location.href="birthday.html"},2700);
+}else{
+wrongShown=true;
+document.getElementById("error").textContent=T[lang].wrong;
+slotsEl.classList.remove("shake");
+void slotsEl.offsetWidth;
+slotsEl.classList.add("shake");
+busy=true;
+setTimeout(()=>{entered="";drawSlots();busy=false},450);
+}
+}
+
+// ---------- background hearts ----------
+(function(){
+const bg=document.getElementById("bg");
+for(let i=0;i<18;i++){
+const s=document.createElement("span");
+s.textContent="♥";
+s.style.left=Math.random()*100+"%";
+s.style.top=(100+Math.random()*20)+"vh";
+s.style.fontSize=(10+Math.random()*16)+"px";
+s.style.animationDuration=(14+Math.random()*16)+"s";
+s.style.animationDelay=(-Math.random()*20)+"s";
+bg.appendChild(s);
+}
+})();
+
+applyLang();
+drawSlots();
+</script>
+</body>
+</html>

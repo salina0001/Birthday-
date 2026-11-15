@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Reasons You're Special</title>
+<script>
+// Bina index.html se unlock kiye seedha khulne par wapas bhej do
+if(sessionStorage.getItem("salinaUnlocked")!=="yes"){location.replace("index.html")}
+</script>
+<style>
+*{box-sizing:border-box}
+/* --f = reason ke text ka scale. JS (fit) screen ke hisaab se set karta hai */
+:root{--f:1}
+html{height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+margin:0;min-height:100%;width:100%;
+background:radial-gradient(circle at top,#ff6fa555,#140c1d 70%) fixed;
+color:white;font-family:Georgia,'Noto Serif Devanagari',serif;text-align:center;
+overflow-x:hidden;
+}
+main{
+min-height:100vh;min-height:100dvh;
+padding:46px 16px 14px;gap:10px;
+display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;
+}
+.heart{font-size:clamp(24px,8vw,30px);line-height:1}
+h1{
+font-size:clamp(20px,6.5vw,34px);margin:0;color:#ffd0e2;
+text-shadow:0 0 25px #db659d;line-height:1.2;
+max-width:100%;overflow-wrap:break-word;
+}
+p{
+color:#f4dce8;line-height:1.4;
+font-size:clamp(12.5px,3.7vw,14.5px);margin:0;
+max-width:100%;overflow-wrap:break-word;
+}
+.card{
+width:100%;max-width:520px;
+min-height:clamp(140px,24vh,220px);min-height:clamp(140px,24dvh,220px);
+background:linear-gradient(145deg,#ff6fa5cc,#32172f);
+border:2px solid #ff6fa5;border-radius:22px;
+padding:clamp(12px,4vw,16px);
+display:flex;flex-direction:column;justify-content:center;align-items:center;
+box-shadow:0 0 30px #ff6fa5;cursor:pointer;
+}
+#icon{font-size:clamp(26px,8.5vw,32px);line-height:1.2}
+#rtitle{
+font-size:calc(clamp(16px,5vw,21px)*var(--f));font-weight:bold;line-height:1.25;color:#fff;
+margin-top:4px;text-shadow:0 2px 8px #0006;
+overflow-wrap:break-word;max-width:100%;
+}
+#reason{
+font-size:calc(clamp(16px,5vw,23px)*var(--f));line-height:1.5;color:#fff;
+margin-top:6px;text-shadow:0 2px 8px #0006;
+overflow-wrap:break-word;max-width:100%;
+}
+#count{font-size:clamp(11px,3.4vw,13px);letter-spacing:2px;color:#fff;margin-bottom:2px}
+button,a{
+display:inline-block;
+background:linear-gradient(120deg,#a94d78,#f0b1ca);color:#2a1020;
+border:0;border-radius:30px;padding:12px clamp(16px,6vw,24px);margin:0;
+font-size:clamp(13px,4vw,15px);font-family:inherit;text-decoration:none;cursor:pointer;
+max-width:100%;
+}
+
+/* Neeche ki line: dono text ek hi jagah me, taaki height fix rahe aur screen na hile */
+.stack{display:grid;width:100%;max-width:520px}
+.stack p{grid-area:1/1}
+
+/* Language button */
+#langBtn{
+position:fixed;top:10px;right:10px;z-index:20;
+padding:8px 16px;
+font-size:clamp(12px,3.6vw,14px);
+background:#211328;color:#ffd4e5;
+border:1px solid #d99bb9;border-radius:30px;
+box-shadow:0 0 15px #a44d7a;
+}
+
+@media (max-height:560px){
+main{padding-top:44px;gap:8px}
+.card{min-height:110px}
+}
+</style>
+</head>
+<body>
+<button id="langBtn" onclick="toggleLang()">हिंदी</button>
+<main>
+<div class="heart">💗</div>
+<h1 data-i18n="title"></h1>
+<p data-i18n="intro"></p>
+<div class="card" id="card" onclick="nextReason()">
+<div id="count">1 / 8</div>
+<div id="icon">🌷</div>
+<div id="rtitle"></div>
+<div id="reason"></div>
+</div>
+<button onclick="nextReason()" data-i18n="revealBtn"></button>
+<div class="stack">
+<p id="o1" data-i18n="outro"></p>
+<p id="o2"></p>
+</div>
+<a href="secret.html" data-i18n="secretBtn"></a>
+</main>
+<script>
+// ---------- HINDI / ENGLISH TEXT ----------
+const T={
+en:{
+pageTitle:"Reasons You're Special",
+title:"8 Little Reasons",
+intro:"There are a million reasons, but here are eight little ones.",
+revealBtn:"REVEAL ANOTHER REASON ✨",
+outro:"One last surprise is waiting behind a little secret door…",
+final:"And Salina, these are just 8 reasons... I could write a thousand more, but even they wouldn't be enough to explain how special you are to me. ❤️",
+secretBtn:"UNLOCK THE SURPRISE 🔐",
+btn:"हिंदी"
+},
+hi:{
+pageTitle:"तुम खास क्यों हो",
+title:"8 छोटी-छोटी वजहें",
+intro:"वजहें तो लाखों हैं, लेकिन ये रहीं आठ छोटी-छोटी।",
+revealBtn:"एक और वजह देखो ✨",
+outro:"एक आखिरी सरप्राइज़ एक छोटे से सीक्रेट दरवाज़े के पीछे इंतज़ार कर रहा है…",
+final:"और सलीना, ये तो सिर्फ़ 8 वजहें हैं... मैं तुम्हारे लिए हज़ार वजहें और लिख सकता हूँ, लेकिन फिर भी तुम्हारी खासियत बताने के लिए वो कम पड़ जाएँगी। ❤️",
+secretBtn:"अपना सरप्राइज़ खोलो 🔐",
+btn:"English"
+}
+};
+
+// Har reason: icon aur colour dono language me same, sirf text alag
+const reasons=[
+{t:{en:"Your Beautiful Smile 🌷",hi:"तुम्हारी खूबसूरत मुस्कान 🌷"},
+en:"There is something in your smile that can make even my saddest day beautiful.",
+hi:"तुम्हारी मुस्कान में कुछ ऐसा है जो मेरे उदास से दिन को भी खूबसूरत बना सकता है।",e:"🌷",c:"#ff6fa5"},
+{t:{en:"You Make Me Feel Lucky ✨",hi:"तुम मुझे खुशकिस्मत महसूस कराती हो ✨"},
+en:"Just having you in my life is a beautiful feeling for me.",
+hi:"तुम्हारा मेरी ज़िंदगी में होना ही मेरे लिए एक खूबसूरत एहसास है।",e:"✨",c:"#ff9966"},
+{t:{en:"You Are One Of A Kind 🌹",hi:"तुम सबसे अलग हो 🌹"},
+en:"There may be many people in the world, but no one can take your place.",
+hi:"दुनिया में बहुत लोग होंगे, लेकिन तुम्हारी जगह कोई नहीं ले सकता।",e:"🌹",c:"#b388ff"},
+{t:{en:"Your Little Things 🧸",hi:"तुम्हारी छोटी-छोटी बातें 🧸"},
+en:"Your little things and sweet habits make you even more special.",
+hi:"तुम्हारी छोटी-छोटी बातें और प्यारी-सी आदतें तुम्हें और भी खास बनाती हैं।",e:"🧸",c:"#4dd0e1"},
+{t:{en:"You Have My Heart ❤️",hi:"मेरा दिल तुम्हारा है ❤️"},
+en:"The place you hold in my heart is not easy to explain in words.",
+hi:"तुम्हारे लिए मेरे दिल में जो जगह है, उसे शब्दों में समझाना आसान नहीं है।",e:"❤️",c:"#ff5c8a"},
+{t:{en:"You Make Me Dream 💗",hi:"तुम मुझे सपने दिखाती हो 💗"},
+en:"I love dreaming about a beautiful tomorrow with you.",
+hi:"तुम्हारे साथ आने वाले खूबसूरत कल के सपने देखना मुझे बहुत अच्छा लगता है।",e:"💗",c:"#5fd68a"},
+{t:{en:"You Are Truly Precious 🌸",hi:"तुम सच में अनमोल हो 🌸"},
+en:"You are precious just as you are. You never need to be anyone else.",
+hi:"तुम जैसी हो, वैसी ही अनमोल हो। तुम्हें किसी और जैसा बनने की ज़रूरत नहीं।",e:"🌸",c:"#ffd54f"},
+{t:{en:"I Can't Wait To Meet You 🥰",hi:"तुमसे मिलने का बेसब्री से इंतज़ार है 🥰"},
+en:"Waiting for our first meeting is one of my most beautiful wishes.",
+hi:"तुम्हारे साथ पहली मुलाक़ात का इंतज़ार मेरी सबसे खूबसूरत ख्वाहिशों में से एक है।",e:"🥰",c:"#ff4d4d"}
+];
+
+let lang="en";
+try{
+const saved=localStorage.getItem("salinaLang");
+if(saved==="hi"||saved==="en")lang=saved;
+}catch(e){}
+
+let idx=0;
+
+function render(animate){
+const r=reasons[idx];
+const card=document.getElementById("card");
+document.getElementById("rtitle").textContent=r.t[lang];
+document.getElementById("reason").textContent=r[lang];
+document.getElementById("icon").textContent=r.e;
+document.getElementById("count").textContent=(idx+1)+" / 8";
+// Aakhri (8th) reason pe neeche teaser ki jagah tumhari closing line dikhegi
+const last=(idx===reasons.length-1);
+document.getElementById("o1").style.visibility=last?"hidden":"visible";
+document.getElementById("o2").style.visibility=last?"visible":"hidden";
+document.body.style.background="radial-gradient(circle at top,"+r.c+"88,#140c1d 75%) fixed";
+card.style.background="linear-gradient(145deg,"+r.c+"dd,#32172f)";
+card.style.borderColor=r.c;
+card.style.boxShadow="0 0 35px "+r.c;
+if(animate&&card.animate){
+card.animate([{transform:"scale(.88)",opacity:.3},{transform:"scale(1)",opacity:1}],{duration:450,easing:"ease-out"});
+}
+}
+
+// ---------- SCREEN FIT ----------
+// Saare 8 reasons ek-ek karke check karte hain. Text ka scale tab tak ghatate hain
+// jab tak sabse lamba reason bhi bina scroll ke screen me na aa jaye.
+function over(){
+return document.documentElement.scrollHeight>window.innerHeight+1;
+}
+function fit(){
+const root=document.documentElement.style;
+const keep=idx;
+const steps=[1,.94,.88,.82,.76,.7,.64,.58];
+let chosen=steps[steps.length-1];
+for(let a=0;a<steps.length;a++){
+root.setProperty("--f",steps[a]);
+let ok=true;
+for(let i=0;i<reasons.length;i++){
+idx=i;
+render(false);
+if(over()){ok=false;break;}
+}
+if(ok){chosen=steps[a];break;}
+}
+root.setProperty("--f",chosen);
+idx=keep;
+render(false);
+}
+
+function applyLang(){
+document.documentElement.lang=lang;
+document.title=T[lang].pageTitle;
+document.querySelectorAll("[data-i18n]").forEach(el=>{
+el.textContent=T[lang][el.getAttribute("data-i18n")];
+});
+document.getElementById("o2").textContent=T[lang].final;
+document.getElementById("langBtn").textContent=T[lang].btn;
+render(false);
+fit();
+}
+
+function toggleLang(){
+lang=(lang==="en")?"hi":"en";
+try{localStorage.setItem("salinaLang",lang)}catch(e){}
+applyLang();
+}
+
+function nextReason(){idx=(idx+1)%reasons.length;render(true)}
+
+applyLang();
+window.addEventListener("resize",fit);
+window.addEventListener("orientationchange",()=>setTimeout(fit,200));
+window.addEventListener("load",fit);
+</script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forever Special, Salina</title>
+<script>
+// Bina index.html se unlock kiye seedha khulne par wapas bhej do
+if(sessionStorage.getItem("salinaUnlocked")!=="yes"){location.replace("index.html")}
+</script>
+<style>
+*{box-sizing:border-box}
+html{height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;min-height:100%;width:100%;background:radial-gradient(ellipse at 50% 45%,#673052,#1a1027 65%,#080710) fixed;color:white;font-family:Georgia,'Noto Serif Devanagari',serif;text-align:center;overflow-x:hidden}
+main{position:relative;z-index:2;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:10px;padding:46px 18px 14px;transition:opacity .6s}
+main.hide{opacity:0;visibility:hidden}
+.top{font-size:clamp(26px,4.5vh,38px);font-size:clamp(26px,4.5dvh,38px);line-height:1}
+.tag{letter-spacing:clamp(1px,.6vw,2.5px);font:clamp(8.5px,2.6vw,10px) Arial,'Noto Sans Devanagari',sans-serif;color:#e9b9d0;max-width:100%;overflow-wrap:break-word}
+h1{font-size:clamp(20px,6.4vw,32px);line-height:1.2;margin:0;color:#ffe0ed;text-shadow:0 0 25px #f46ba9,0 0 70px #a34eaa;animation:glow 2s infinite alternate;max-width:100%;overflow-wrap:break-word;white-space:pre-line}
+.msg{max-width:520px;color:#f6dce9;line-height:1.5;font-size:clamp(12.5px,3.7vw,15.5px);margin:0;overflow-wrap:break-word}
+.msg b{color:#ffd0e2}
+.sign{font-size:clamp(14px,4vw,16px);color:#ffd0e2;margin:0;font-style:italic;line-height:1.4;min-height:44px;display:flex;align-items:center;justify-content:center}
+button{background:linear-gradient(120deg,#a94d78,#f0b1ca);color:#2a1020;border:1px solid #ffe0ed;border-radius:35px;padding:13px clamp(14px,5vw,18px);margin:0;cursor:pointer;font-size:clamp(12px,3.6vw,14.5px);font-family:inherit;max-width:100%}
+#sky{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.spark{position:absolute;font-size:25px;animation:burst 2.5s ease-out forwards}
+@keyframes burst{0%{transform:scale(.2);opacity:0}30%{opacity:1}100%{transform:translateY(-150px) scale(1.7) rotate(180deg);opacity:0}}
+@keyframes glow{to{text-shadow:0 0 45px #ff8bbb,0 0 90px #b36ac3}}
+
+/* Language button (love screen ke upar bhi dikhega) */
+#langBtn{
+position:fixed;top:10px;right:10px;z-index:30;
+padding:8px 16px;
+font-size:clamp(12px,3.6vw,14px);
+background:#211328;color:#ffd4e5;
+border:1px solid #d99bb9;border-radius:30px;
+box-shadow:0 0 15px #a44d7a;
+}
+
+/* LOVE SCREEN */
+#love{display:none;position:fixed;inset:0;z-index:10;background:radial-gradient(ellipse at 50% 45%,#7a3560,#1a1027 70%,#080710);overflow:hidden;opacity:0;transition:opacity .6s}
+#love.show{opacity:1}
+.stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:2;pointer-events:none;transition:opacity 1s,transform 1s;padding:16px;overflow:hidden}
+#stage1.gone{opacity:0;transform:scale(.85)}
+#stage2{opacity:0;transform:scale(.9);padding:clamp(14px,5vw,24px)}
+#stage2.on{opacity:1;transform:scale(1)}
+
+.heartwrap{position:relative;width:clamp(90px,28vw,130px);height:clamp(90px,28vw,130px);display:flex;align-items:center;justify-content:center;margin-bottom:clamp(8px,2.5vh,18px)}
+.heartwrap .h{font-size:clamp(58px,19vw,84px);line-height:1;animation:beat 1.1s infinite;filter:drop-shadow(0 0 22px #ff4d88)}
+.ring{position:absolute;inset:0;border:2px solid #ff8bbb;border-radius:50%;opacity:0;animation:ripple 2.4s infinite}
+.ring:nth-child(2){animation-delay:.8s}
+.ring:nth-child(3){animation-delay:1.6s}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.22)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+@keyframes ripple{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+
+.iloveyou{display:flex;justify-content:center;flex-wrap:wrap;gap:0 clamp(4px,2vw,10px);max-width:100%;font-size:clamp(30px,11vw,62px);font-weight:bold;color:#ffe0ed;line-height:1.2;text-shadow:0 0 18px #f46ba9,0 0 45px #a34eaa}
+.iloveyou .w{display:inline-flex}
+.iloveyou .l{display:inline-block;opacity:0;animation:letterIn .6s forwards,wave 2.2s ease-in-out infinite}
+@keyframes letterIn{from{opacity:0;transform:translateY(30px) scale(.4)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.sal{margin-top:10px;font-size:clamp(24px,8vw,38px);font-style:italic;background:linear-gradient(90deg,#ffd0e2,#ff6fa5,#ffd0e2,#ff6fa5);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:shine 3s linear infinite}
+@keyframes shine{to{background-position:300% 0}}
+
+/* THANK YOU MESSAGE (readable colours) */
+.fin{margin:clamp(4px,1.2vh,10px) 0;max-width:100%;overflow-wrap:break-word;white-space:pre-line;opacity:0;transform:translateY(18px);animation:finIn 1.2s forwards;text-shadow:0 2px 8px #000c,0 0 3px #000a}
+.fin.a{font-size:clamp(30px,10vw,50px);color:#ffffff;text-shadow:0 0 18px #ff4d88,0 2px 8px #000c;animation-delay:.6s}
+.fin.b{font-size:clamp(16px,5.2vw,24px);color:#ffffff;line-height:1.5;animation-delay:2.2s}
+.fin.c{font-size:clamp(16px,5.2vw,24px);color:#ffe28a;font-style:italic;line-height:1.5;animation-delay:4s}
+.fin.d{font-size:clamp(14px,4.3vw,19px);color:#fff4f8;line-height:1.6;animation-delay:6s}
+.fin.e{font-size:clamp(34px,11vw,44px);animation-delay:7.5s}
+@keyframes finIn{to{opacity:1;transform:translateY(0)}}
+
+.fl{position:absolute;bottom:-60px;white-space:nowrap;animation:rise linear forwards;z-index:1}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:1}100%{transform:translateY(-115vh) scale(1.2) rotate(var(--r));opacity:0}}
+
+/* Kam height wali screen / landscape */
+@media (max-height:620px){
+main{padding:44px 14px 10px;gap:6px}
+.heartwrap{width:70px;height:70px;margin-bottom:6px}
+.heartwrap .h{font-size:46px}
+.iloveyou{font-size:clamp(24px,8vw,40px)}
+.sal{font-size:clamp(20px,6vw,28px);margin-top:4px}
+.fin.a{font-size:clamp(24px,7vw,34px)}
+.fin.b,.fin.c{font-size:clamp(14px,4.2vw,18px)}
+.fin.d{font-size:clamp(12px,3.6vw,15px);line-height:1.4}
+.fin.e{font-size:30px}
+}
+</style>
+</head>
+<body>
+<button id="langBtn" onclick="toggleLang()">हिंदी</button>
+<div id="sky"></div>
+<main id="main">
+<div class="top">🌙 ✨ 🌹</div>
+<div class="tag" data-i18n="tag"></div>
+<h1 data-i18n="title"></h1>
+<p class="msg" data-html="msg1"></p>
+<p class="msg" data-html="msg2"></p>
+<p class="sign" id="sign" data-i18n="sign"></p>
+<button onclick="celebrate()" data-i18n="magicBtn"></button>
+</main>
+
+<div id="love">
+<div class="stage" id="stage1">
+<div class="heartwrap">
+<div class="ring"></div><div class="ring"></div><div class="ring"></div>
+<div class="h">❤️</div>
+</div>
+<div class="iloveyou" id="ily"></div>
+<div class="sal" data-i18n="sal"></div>
+</div>
+
+<div class="stage" id="stage2">
+<div class="fin a" data-i18n="fa"></div>
+<div class="fin b" data-i18n="fb"></div>
+<div class="fin c" data-i18n="fc"></div>
+<div class="fin d" data-i18n="fd"></div>
+<div class="fin e">😘 ❤️ 😘</div>
+</div>
+</div>
+
+<script>
+// ---------- HINDI / ENGLISH TEXT ----------
+const T={
+en:{
+pageTitle:"Forever Special, Salina",
+tag:"THE LAST PAGE, BUT NOT THE LAST MEMORY",
+title:"Happy Birthday\nOnce Again, Salina ❤️",
+msg1:"Thank you for coming into my life. Before you, my days were just days. After you, they became <b>moments worth remembering</b>.",
+msg2:"I feel like I owe you a debt I can never repay: for your smile, your presence, and the way you made my world softer and brighter. Some debts are not meant to be paid. For that, <b>I will remain grateful for a lifetime</b>.",
+sign:"However you are, I accept you just the way you are. 💗",
+magicBtn:"MAKE THIS MOMENT MAGICAL 🎆",
+sal:"Salina 🌹",
+ily:["I","Love","You"],
+fa:"Thank you 💗",
+fb:"for coming into my life, Salina.",
+fc:"My heartfelt thank you to you. 🌹",
+fd:"You made every ordinary day feel special.\nHappy Birthday once again,\nI really reallllyyyyy Missss uhhhhhhhhh madam jiiiiiii 🥺",
+items:["Love you 🌹","Love you 🌹","Love you 🌹","Love you 💗","Love you 😘","😘","💋","💋","😘","💕","🌹","❤️"],
+btn:"हिंदी"
+},
+hi:{
+pageTitle:"हमेशा खास, सलीना",
+tag:"आखिरी पन्ना, लेकिन आखिरी याद नहीं",
+title:"एक बार फिर\nजन्मदिन मुबारक, सलीना ❤️",
+msg1:"मेरी ज़िंदगी में आने के लिए शुक्रिया। तुमसे पहले मेरे दिन बस दिन थे। तुम्हारे बाद वो <b>यादगार लम्हे</b> बन गए।",
+msg2:"मुझे लगता है मुझ पर तुम्हारा एक ऐसा कर्ज़ है जो मैं कभी चुका नहीं सकता: तुम्हारी मुस्कान का, तुम्हारे साथ का, और उस तरह का जिससे तुमने मेरी दुनिया को नरम और रोशन बना दिया। कुछ कर्ज़ चुकाने के लिए नहीं होते। उसके लिए <b>मैं उम्र भर शुक्रगुज़ार रहूँगा</b>।",
+sign:"तुम जैसी भी हो, मुझे क़ुबूल है। 💗",
+magicBtn:"इस पल को जादुई बनाओ 🎆",
+sal:"सलीना 🌹",
+ily:["आई","लव","यू"],
+fa:"शुक्रिया 💗",
+fb:"मेरी ज़िंदगी में आने के लिए, सलीना।",
+fc:"तुम्हारा दिल से शुक्रिया। 🌹",
+fd:"तुमने हर आम दिन को खास बना दिया।\nफिर से जन्मदिन मुबारक,\nमुझे तुम्हारी बहुत्तत याद आती है मैडम जीईईईईई 🥺",
+items:["लव यू 🌹","लव यू 🌹","लव यू 🌹","लव यू 💗","लव यू 😘","😘","💋","💋","😘","💕","🌹","❤️"],
+btn:"English"
+}
+};
+
+let lang="en";
+try{
+const saved=localStorage.getItem("salinaLang");
+if(saved==="hi"||saved==="en")lang=saved;
+}catch(e){}
+
+let busy=false;
+let starTimer=null;
+
+// "I Love You" ke letters (bhasha ke hisaab se dobara banta hai)
+function buildIly(){
+const box=document.getElementById("ily");
+box.innerHTML="";
+let n=0;
+T[lang].ily.forEach(word=>{
+const w=document.createElement("span");w.className="w";
+Array.from(word).forEach(ch=>{
+const s=document.createElement("span");s.className="l";s.textContent=ch;
+s.style.animationDelay=(n*0.12)+"s,"+(n*0.12+0.8)+"s";
+n++;w.appendChild(s);
+});
+box.appendChild(w);
+});
+}
+
+function applyLang(){
+document.documentElement.lang=lang;
+document.title=T[lang].pageTitle;
+document.querySelectorAll("[data-i18n]").forEach(el=>{
+el.textContent=T[lang][el.getAttribute("data-i18n")];
+});
+document.querySelectorAll("[data-html]").forEach(el=>{
+el.innerHTML=T[lang][el.getAttribute("data-html")];
+});
+document.getElementById("langBtn").textContent=T[lang].btn;
+buildIly();
+}
+
+function toggleLang(){
+lang=(lang==="en")?"hi":"en";
+try{localStorage.setItem("salinaLang",lang)}catch(e){}
+applyLang();
+}
+
+function startStars(){
+starTimer=setInterval(()=>{
+let e=document.createElement("div");e.className="spark";e.textContent="✦";
+e.style.left=Math.random()*96+"vw";e.style.top="95vh";e.style.fontSize="15px";
+document.getElementById("sky").appendChild(e);setTimeout(()=>e.remove(),2500);
+},400);
+}
+startStars();
+applyLang();
+
+function spawnOne(love){
+const list=T[lang].items;
+const e=document.createElement("div");
+e.className="fl";
+e.textContent=list[Math.floor(Math.random()*list.length)];
+e.style.left=(Math.random()*80)+"vw";
+e.style.fontSize=(18+Math.random()*26)+"px";
+e.style.color="#ffd0e2";
+e.style.textShadow="0 0 12px #f46ba9";
+e.style.setProperty("--r",(Math.random()*40-20)+"deg");
+e.style.animationDuration=(3+Math.random()*3)+"s";
+love.appendChild(e);
+setTimeout(()=>e.remove(),6500);
+}
+
+function celebrate(){
+if(busy)return;
+busy=true;
+clearInterval(starTimer);
+document.getElementById("sky").innerHTML="";
+const main=document.getElementById("main");
+const love=document.getElementById("love");
+window.scrollTo(0,0);
+document.body.style.overflow="hidden";
+main.classList.add("hide");
+love.style.display="block";
+setTimeout(()=>love.classList.add("show"),30);
+
+const spawn=setInterval(()=>spawnOne(love),110);
+
+// 10 sec baad: love screen ka center hatta kar shukrana message
+setTimeout(()=>{
+clearInterval(spawn);
+document.getElementById("stage1").classList.add("gone");
+setTimeout(()=>document.getElementById("stage2").classList.add("on"),700);
+// halke halke hearts chalte rahenge
+setInterval(()=>spawnOne(love),600);
+},10000);
+}
+</script>
+</body>
+</html>
